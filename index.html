@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Convert images to ASCII art for terminal use. Supports multiple character sets with real-time preview.">
+    <title>ASCII Converter</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header id="app-header">
+        <h1>ASCII Converter</h1>
+        <p class="subtitle">Convert images to ASCII art</p>
+    </header>
+
+    <main id="app-main">
+        <aside id="controls-panel">
+            <section class="control-group">
+                <label class="control-label" for="drop-zone">Image</label>
+                <div id="drop-zone" role="button" tabindex="0" aria-label="Upload image">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="17 8 12 3 7 8"/>
+                        <line x1="12" y1="3" x2="12" y2="15"/>
+                    </svg>
+                    <span class="drop-text">Drop image here or click to browse</span>
+                    <span class="drop-hint">PNG, JPG, BMP, GIF, SVG, WEBP</span>
+                    <input type="file" id="file-input" accept="image/png,image/jpeg,image/jpg,image/bmp,image/gif,image/svg+xml,image/webp" hidden>
+                </div>
+            </section>
+
+            <div id="preview-container" style="display: none;">
+                <label class="control-label">Preview</label>
+                <img id="image-preview" alt="Uploaded image preview">
+            </div>
+
+            <section class="control-group">
+                <label class="control-label" for="charset-select">Character Set</label>
+                <select id="charset-select">
+                    <option value="standard" selected>Standard</option>
+                    <option value="block">Block</option>
+                    <option value="minimal">Minimal</option>
+                    <option value="detailed">Detailed</option>
+                    <option value="dot">Dot</option>
+                    <option value="custom">Custom</option>
+                </select>
+                <input type="text" id="custom-charset" class="hidden" placeholder="Type your characters here" spellcheck="false" autocomplete="off">
+            </section>
+
+            <section class="control-group">
+                <label class="control-label" for="width-slider">
+                    Width <span id="width-value" class="slider-value">100</span>
+                </label>
+                <input type="range" id="width-slider" min="40" max="200" value="100">
+            </section>
+
+            <section class="control-group">
+                <label class="control-label" for="threshold-slider">
+                    Threshold <span id="threshold-value" class="slider-value">128</span>
+                </label>
+                <input type="range" id="threshold-slider" min="0" max="255" value="128">
+            </section>
+
+            <section class="control-group">
+                <label class="control-label">Render Mode</label>
+                <div class="radio-group">
+                    <label class="radio-label" for="mode-black">
+                        <input type="radio" id="mode-black" name="render-mode" value="black" checked>
+                        <span>Black</span>
+                    </label>
+                    <label class="radio-label" for="mode-white">
+                        <input type="radio" id="mode-white" name="render-mode" value="white">
+                        <span>White</span>
+                    </label>
+                </div>
+            </section>
+
+            <section class="control-group">
+                <label class="checkbox-label" for="transparent-mode">
+                    <input type="checkbox" id="transparent-mode">
+                    <span>Transparent spaces</span>
+                </label>
+            </section>
+        </aside>
+
+        <section id="output-panel">
+            <div class="terminal-window">
+                <div class="terminal-bar">
+                    <div class="terminal-dots">
+                        <span class="dot dot-red"></span>
+                        <span class="dot dot-yellow"></span>
+                        <span class="dot dot-green"></span>
+                    </div>
+                    <span class="terminal-title">Output</span>
+                </div>
+                <div class="output-content">
+                    <pre id="ascii-output" aria-label="ASCII art output"></pre>
+                </div>
+            </div>
+            <div class="output-actions">
+                <button id="btn-copy" type="button">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                    </svg>
+                    <span id="copy-text">Copy</span>
+                </button>
+                <button id="btn-download" type="button">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="7 10 12 15 17 10"/>
+                        <line x1="12" y1="15" x2="12" y2="3"/>
+                    </svg>
+                    <span>Download</span>
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <canvas id="hidden-canvas" style="display: none;"></canvas>
+    <script src="script.js"></script>
+</body>
+</html>

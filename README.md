@@ -1,1 +1,3 @@
-# ascii-mkr
+# ASCII Converter
+
+Convert images to ASCII art.
